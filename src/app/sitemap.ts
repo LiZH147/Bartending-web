@@ -2,38 +2,41 @@ import type { MetadataRoute } from "next";
 import { listCocktails } from "@/lib/data";
 import { SITE_URL } from "@/lib/seo";
 
-function alternates(path: string) {
+const LANGS = ["en", "zh-CN"] as const;
+
+function languages(id: string) {
   return {
-    languages: {
-      en: `${SITE_URL}${path}?lang=en`,
-      "zh-CN": `${SITE_URL}${path}?lang=zh-CN`,
-    },
+    en: `${SITE_URL}/en${id}`,
+    "zh-CN": `${SITE_URL}/zh-CN${id}`,
   };
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const cocktails = await listCocktails();
+  const cocktails = (await listCocktails()).filter((c) => c.source === "classic");
+  const lastModified = new Date();
+  const entries: MetadataRoute.Sitemap = [];
 
-  const home: MetadataRoute.Sitemap[number] = {
-    url: `${SITE_URL}/`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 1,
-    alternates: alternates("/"),
-  };
-
-  const cocktailPages: MetadataRoute.Sitemap = cocktails
-    .filter((c) => c.source === "classic")
-    .map((c) => {
-      const path = `/cocktail/${c.id}`;
-      return {
-        url: `${SITE_URL}${path}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.7,
-        alternates: alternates(path),
-      };
+  for (const lang of LANGS) {
+    // Home page, localized.
+    entries.push({
+      url: `${SITE_URL}/${lang}`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 1,
+      alternates: { languages: { en: `${SITE_URL}/en`, "zh-CN": `${SITE_URL}/zh-CN` } },
     });
 
-  return [home, ...cocktailPages];
+    // Classic cocktail pages, localized.
+    for (const c of cocktails) {
+      entries.push({
+        url: `${SITE_URL}/${lang}/cocktail/${c.id}`,
+        lastModified,
+        changeFrequency: "monthly",
+        priority: 0.7,
+        alternates: { languages: languages(`/cocktail/${c.id}`) },
+      });
+    }
+  }
+
+  return entries;
 }

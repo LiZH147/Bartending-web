@@ -25,7 +25,7 @@ export default function CabinetPage() {
   function mix() {
     const params = new URLSearchParams();
     for (const id of cabinet.items) params.append("i", id);
-    router.push(`/recommend?${params.toString()}`);
+    router.push(`/${locale}/recommend?${params.toString()}`);
   }
 
   return (
@@ -42,7 +42,7 @@ export default function CabinetPage() {
           <Martini className="h-4 w-4" />
           {t("cabinet.actions.search")}
         </Button>
-        <Link href="/">
+        <Link href={`/${locale}`}>
           <Button variant="outline">
             <Plus className="h-4 w-4" />
             {t("cabinet.actions.addShortcut")}
@@ -66,7 +66,7 @@ export default function CabinetPage() {
             {t("cabinet.empty.title")}
           </p>
           <p className="mb-4 text-sm text-muted-foreground">{t("cabinet.empty.subtitle")}</p>
-          <Link href="/">
+          <Link href={`/${locale}`}>
             <Button variant="outline">{t("cabinet.actions.addShortcut")}</Button>
           </Link>
         </div>

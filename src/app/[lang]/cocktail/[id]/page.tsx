@@ -10,39 +10,50 @@ function asArray(v: string | string[] | undefined): string[] {
   return Array.isArray(v) ? v : [v];
 }
 
-// Programmatic SEO: every classic cocktail gets a pre-rendered, indexable page
-// with its own title/description/canonical/structured data (per knowledge base).
+// Programmatic SEO: every classic cocktail in every language gets a
+// pre-rendered, indexable page with its own localized title/description,
+// canonical and hreflang alternates (per knowledge base).
 export async function generateStaticParams() {
   const cocktails = await listCocktails();
-  return cocktails.map((c) => ({ id: c.id }));
+  const langs = ["en", "zh-CN"] as const;
+  return langs.flatMap((lang) => cocktails.map((c) => ({ lang, id: c.id })));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ lang: string; id: string }>;
 }): Promise<Metadata> {
-  const { id } = await params;
+  const { id, lang: rawLang } = await params;
+  const lang: "en" | "zh-CN" = rawLang === "zh-CN" ? "zh-CN" : "en";
   const decoded = decodeURIComponent(id);
   const c = await getCocktail(decoded);
   if (!c) return { title: "Cocktail not found" };
 
-  const title = `${c.nameEn} Cocktail Recipe`;
-  const description = c.descriptionEn;
-  const canonical = abs(`/cocktail/${decoded}`);
-  const images = c.imageUrl ? [{ url: c.imageUrl, alt: title }] : undefined;
+  const isZh = lang === "zh-CN";
+  const displayName = isZh ? c.nameZh : c.nameEn;
+  const description = isZh ? c.descriptionZh : c.descriptionEn;
+  const title = `${displayName} ${isZh ? "配方" : "Cocktail Recipe"}`;
+  const canonical = abs(`/${lang}/cocktail/${decoded}`);
+  const images = c.imageUrl ? [{ url: c.imageUrl, alt: `${displayName} ${isZh ? "配方" : "recipe"}` }] : undefined;
 
   return {
-    title: `${c.nameEn} Recipe`,
+    title: `${displayName} ${isZh ? "配方" : "Recipe"}`,
     description,
-    alternates: { canonical },
+    alternates: {
+      canonical,
+      languages: {
+        en: abs(`/en/cocktail/${decoded}`),
+        "zh-CN": abs(`/zh-CN/cocktail/${decoded}`),
+      },
+    },
     openGraph: {
       type: "article",
       title: `${title} · ${SITE_NAME}`,
       description,
       url: canonical,
       siteName: SITE_NAME,
-      locale: "en_US",
+      locale: isZh ? "zh_CN" : "en_US",
       images,
     },
     twitter: {
@@ -58,17 +69,18 @@ export default async function CocktailDetailPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ lang: string; id: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const { id } = await params;
+  const { id, lang: rawLang } = await params;
+  const lang: "en" | "zh-CN" = rawLang === "zh-CN" ? "zh-CN" : "en";
   const sp = await searchParams;
   const ownedIds = asArray(sp.i);
   const decoded = decodeURIComponent(id);
 
-  // Seeded server-side so crawlers (and the first paint) get full content,
-  // while the client still re-fetches its personalized "owned" context on mount.
-  const initial = await buildCocktailDetail(decoded, [], "en");
+  // Seeded server-side so crawlers (and the first paint) get full localized
+  // content, while the client still re-fetches its personalized "owned" context.
+  const initial = await buildCocktailDetail(decoded, [], lang);
   if (!initial) notFound();
 
   return (
@@ -84,7 +96,7 @@ export default async function CocktailDetailPage({
               ingredients: initial.ingredients.map((i) => ({ name: i.name, amount: i.amount })),
               imageUrl: initial.imageUrl,
               prepTime: initial.prepTime,
-              url: `/cocktail/${decoded}`,
+              url: `/${lang}/cocktail/${decoded}`,
             }),
           ),
         }}

@@ -148,7 +148,7 @@ export function RecommendClient({ inputs }: { inputs: RecommendInputs }) {
       <div className="mb-6 flex items-center justify-between gap-3">
         <button
           type="button"
-          onClick={() => router.push("/")}
+          onClick={() => router.push(`/${locale}`)}
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -180,7 +180,7 @@ export function RecommendClient({ inputs }: { inputs: RecommendInputs }) {
           <AlertTriangle className="mx-auto mb-3 h-8 w-8 text-destructive" />
           <p className="mb-1 text-sm font-medium">{t("error.title")}</p>
           <p className="mb-4 text-xs text-muted-foreground">{error}</p>
-          <Button variant="outline" onClick={() => router.push("/")}>
+          <Button variant="outline" onClick={() => router.push(`/${locale}`)}>
             {t("actions.newSearch")}
           </Button>
         </div>

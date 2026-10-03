@@ -66,14 +66,6 @@ export function isLocale(value: unknown): value is Locale {
 
 export function resolveInitialLocale(): Locale {
   if (typeof window === "undefined") return "en";
-  // `?lang=` URL variants back the hreflang alternates in sitemap.xml, so a
-  // crawler (or a shared link) can address a specific language directly.
-  try {
-    const q = new URLSearchParams(window.location.search).get("lang");
-    if (isLocale(q)) return q;
-  } catch {
-    /* ignore */
-  }
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (isLocale(saved)) return saved;
@@ -87,6 +79,18 @@ export function resolveInitialLocale(): Locale {
     /* ignore */
   }
   return "en";
+}
+
+/**
+ * Rewrite a pathname to use a different locale segment, e.g.
+ * "/zh-CN/cocktail/margarita?i=gin" -> "/en/cocktail/margarita".
+ * Used by the language switcher so switching languages keeps the current page.
+ */
+export function localizePathname(pathname: string, locale: Locale): string {
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments.length > 0 && isLocale(segments[0])) segments[0] = locale;
+  else segments.unshift(locale);
+  return "/" + segments.join("/");
 }
 
 export function persistLocale(locale: Locale) {

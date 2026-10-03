@@ -28,7 +28,7 @@ export function CocktailCard({ cocktail: c, isFavorite, onToggleFavorite, index 
 
   return (
     <Link
-      href={`/cocktail/${c.id}${qs}`}
+      href={`/${locale}/cocktail/${c.id}${qs}`}
       className={cn(
         "group card-hover relative flex flex-col overflow-hidden rounded-xl border border-border bg-card animate-fade-up",
         index > 0 && `animation-delay-${Math.min(index, 6) * 100}`,

@@ -15,6 +15,10 @@ export const DEFAULT_TITLE = "NIGHTCAP — AI Cocktail & Drink Recipes";
 export const DEFAULT_DESCRIPTION =
   "Tell us what's in your cabinet and instantly get classic cocktails and AI-crafted drinks you can mix tonight. 70+ recipes with step-by-step instructions.";
 
+export const DEFAULT_TITLE_ZH = "NIGHTCAP — AI 鸡尾酒配方与智能推荐";
+export const DEFAULT_DESCRIPTION_ZH =
+  "告诉 NIGHTCAP 你酒柜里有什么，立刻得到今晚就能调制的经典鸡尾酒和 AI 创意特调。70+ 配方，附带分步调制说明。";
+
 export const DEFAULT_KEYWORDS = [
   "cocktail recipes",
   "drink recipes",
@@ -26,6 +30,33 @@ export const DEFAULT_KEYWORDS = [
   "cocktail finder",
   "drink ideas",
 ];
+
+export const DEFAULT_KEYWORDS_ZH = [
+  "鸡尾酒配方",
+  "调酒配方",
+  "鸡尾酒推荐",
+  "家庭调酒",
+  "鸡尾酒配料",
+  "调酒入门",
+  "今晚喝什么",
+  "鸡尾酒做法",
+];
+
+/** Per-language default metadata (used by the [lang] root layout). */
+export const LOCALE_META = {
+  en: {
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    keywords: DEFAULT_KEYWORDS,
+    ogLocale: "en_US",
+  },
+  "zh-CN": {
+    title: DEFAULT_TITLE_ZH,
+    description: DEFAULT_DESCRIPTION_ZH,
+    keywords: DEFAULT_KEYWORDS_ZH,
+    ogLocale: "zh_CN",
+  },
+} as const;
 
 /** Build an absolute site URL from a path or pathname. */
 export function abs(pathOrUrl: string): string {

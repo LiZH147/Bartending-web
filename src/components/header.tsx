@@ -5,22 +5,23 @@ import { usePathname } from "next/navigation";
 import { Martini } from "lucide-react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { LanguageSwitcher } from "./language-switcher";
+import { MobileNav } from "./mobile-nav";
 import { cn } from "@/lib/utils";
 
 export function Header() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const pathname = usePathname();
 
   const links = [
-    { href: "/", label: t("nav.home") },
-    { href: "/cabinet", label: t("nav.cabinet") },
-    { href: "/favorites", label: t("nav.favorites") },
+    { href: `/${locale}`, label: t("nav.home") },
+    { href: `/${locale}/cabinet`, label: t("nav.cabinet") },
+    { href: `/${locale}/favorites`, label: t("nav.favorites") },
   ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2.5 group">
+        <Link href={`/${locale}`} className="flex items-center gap-2.5 group">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-amber/15 text-brand-amber ring-1 ring-brand-amber/30">
             <Martini className="h-5 w-5" />
           </span>
@@ -36,7 +37,7 @@ export function Header() {
 
         <nav className="hidden items-center gap-1 md:flex">
           {links.map((l) => {
-            const active = l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
+            const active = l.href === `/${locale}` ? pathname === `/${locale}` : pathname.startsWith(l.href);
             return (
               <Link
                 key={l.href}
@@ -54,7 +55,10 @@ export function Header() {
           })}
         </nav>
 
-        <LanguageSwitcher />
+        <div className="flex items-center gap-2">
+          <MobileNav />
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
   );

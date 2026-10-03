@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Reads the ?i= / ?flavor= / etc. query at request time, so it must not be
+// statically prerendered (the parent [lang] segment is static).
+export const dynamic = "force-dynamic";
+
 function asArray(v: string | string[] | undefined): string[] {
   if (!v) return [];
   return Array.isArray(v) ? v : [v];

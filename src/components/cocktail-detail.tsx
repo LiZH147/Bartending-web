@@ -31,7 +31,7 @@ export function CocktailDetailClient({
 
   const goBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) router.back();
-    else router.push("/");
+    else router.push(`/${locale}`);
   };
 
   const [cocktail, setCocktail] = useState<CocktailResult | null>(initial);

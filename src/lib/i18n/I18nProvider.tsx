@@ -12,7 +12,6 @@ import {
 import {
   getDictionary,
   persistLocale,
-  resolveInitialLocale,
   translate,
   type Dictionary,
   type Interpolation,
@@ -28,14 +27,21 @@ interface I18nContextValue {
 
 const I18nContext = createContext<I18nContextValue | null>(null);
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("en");
+export function I18nProvider({
+  children,
+  initialLocale = "en",
+}: {
+  children: ReactNode;
+  initialLocale?: Locale;
+}) {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
 
+  // The locale can change via the URL segment (when the language switcher
+  // navigates), so keep state in sync with the prop between navigations.
   useEffect(() => {
-    const initial = resolveInitialLocale();
-    setLocaleState(initial);
-    if (typeof document !== "undefined") document.documentElement.lang = initial;
-  }, []);
+    setLocaleState(initialLocale);
+    if (typeof document !== "undefined") document.documentElement.lang = initialLocale;
+  }, [initialLocale]);
 
   const setLocale = useCallback((next: Locale) => {
     setLocaleState(next);

@@ -1,8 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { I18nProvider } from "@/lib/i18n/I18nProvider";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_KEYWORDS,
@@ -14,10 +11,7 @@ import {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: DEFAULT_TITLE,
-    template: `%s · ${SITE_NAME}`,
-  },
+  title: DEFAULT_TITLE,
   description: DEFAULT_DESCRIPTION,
   keywords: DEFAULT_KEYWORDS,
   applicationName: SITE_NAME,
@@ -60,19 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <a
-          href="#main"
-          className="sr-only z-[100] rounded-md bg-brand-amber px-4 py-2 text-sm font-medium text-brand-burgundy focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
-        >
-          Skip to content
-        </a>
-        <I18nProvider>
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main id="main" className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </I18nProvider>
+        {children}
         <noscript>
           <style>{`body:before{content:"This app works best with JavaScript enabled.";display:block;padding:1rem;color:#c9b794}`}</style>
         </noscript>

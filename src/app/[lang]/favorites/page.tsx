@@ -66,7 +66,7 @@ export default function FavoritesPage() {
             {t("favorites.empty.title")}
           </p>
           <p className="mb-4 text-sm text-muted-foreground">{t("favorites.empty.subtitle")}</p>
-          <Link href="/">
+          <Link href={`/${locale}`}>
             <Button variant="outline">{t("nav.home")}</Button>
           </Link>
         </div>
