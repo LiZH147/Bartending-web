@@ -120,3 +120,19 @@ export function websiteJsonLd(): Record<string, unknown> {
     },
   };
 }
+
+/** Schema.org ItemList for the home page's featured classic cocktails. */
+export function itemListJsonLd(items: { name: string; url: string }[]): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Popular Cocktail Recipes",
+    numberOfItems: items.length,
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      url: abs(item.url),
+    })),
+  };
+}

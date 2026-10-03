@@ -16,6 +16,7 @@ export function Header() {
     { href: `/${locale}`, label: t("nav.home") },
     { href: `/${locale}/cabinet`, label: t("nav.cabinet") },
     { href: `/${locale}/favorites`, label: t("nav.favorites") },
+    { href: `/${locale}/guide`, label: t("nav.guide") },
   ];
 
   return (

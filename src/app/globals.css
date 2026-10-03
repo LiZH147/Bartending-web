@@ -39,7 +39,7 @@
 
     --radius: 0.75rem;
 
-    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-serif: Georgia, "Times New Roman", "Palatino Linotype", Palatino, serif;
   }
 

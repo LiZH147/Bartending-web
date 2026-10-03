@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CocktailDetailClient } from "@/components/cocktail-detail";
+import { CocktailGrid, type CocktailLink } from "@/components/cocktail-grid";
 import { getCocktail, listCocktails } from "@/lib/data";
 import { buildCocktailDetail } from "@/lib/recommend";
 import { abs, recipeJsonLd, SITE_NAME } from "@/lib/seo";
@@ -83,6 +84,26 @@ export default async function CocktailDetailPage({
   const initial = await buildCocktailDetail(decoded, [], lang);
   if (!initial) notFound();
 
+  // Internal linking: recommend other classics that share ingredients, so
+  // search engines (and users) can keep crawling between recipes.
+  const all = await listCocktails();
+  const currentIds = new Set(
+    (all.find((x) => x.id === decoded)?.ingredients ?? []).map((i) => i.ingredient.id),
+  );
+  const related: CocktailLink[] = all
+    .filter((x) => x.id !== decoded && x.source === "classic")
+    .map((x) => ({
+      id: x.id,
+      name: lang === "zh-CN" ? x.nameZh : x.nameEn,
+      imageUrl: x.imageUrl,
+      emoji: x.ingredients[0]?.ingredient.emoji ?? "🍸",
+      overlap: x.ingredients.filter((i) => currentIds.has(i.ingredient.id)).length,
+      popularity: x.popularity,
+    }))
+    .sort((a, b) => b.overlap - a.overlap || b.popularity - a.popularity)
+    .slice(0, 4)
+    .map(({ overlap: _overlap, popularity: _popularity, ...rest }) => rest);
+
   return (
     <>
       <script
@@ -102,6 +123,11 @@ export default async function CocktailDetailPage({
         }}
       />
       <CocktailDetailClient id={decoded} ownedIds={ownedIds} initial={initial} />
+      <CocktailGrid
+        lang={lang}
+        title={lang === "zh-CN" ? "相关推荐" : "You might also like"}
+        items={related}
+      />
     </>
   );
 }

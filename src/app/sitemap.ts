@@ -26,6 +26,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: { languages: { en: `${SITE_URL}/en`, "zh-CN": `${SITE_URL}/zh-CN` } },
     });
 
+    // Beginner's guide, localized.
+    entries.push({
+      url: `${SITE_URL}/${lang}/guide`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+      alternates: { languages: { en: `${SITE_URL}/en/guide`, "zh-CN": `${SITE_URL}/zh-CN/guide` } },
+    });
+
     // Classic cocktail pages, localized.
     for (const c of cocktails) {
       entries.push({
