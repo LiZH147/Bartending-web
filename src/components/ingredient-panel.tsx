@@ -31,6 +31,7 @@ export function IngredientPanel({ selected, onToggle, onRemove, onClear, onAddMa
   const [natural, setNatural] = useState("");
   const [parsing, setParsing] = useState(false);
   const [unmatched, setUnmatched] = useState<string[]>([]);
+  const [parseError, setParseError] = useState(false);
   const [saved, setSaved] = useState(false);
 
   const byId = useMemo(() => new Map(ingredients.map((i) => [i.id, i])), [ingredients]);
@@ -66,13 +67,14 @@ export function IngredientPanel({ selected, onToggle, onRemove, onClear, onAddMa
     if (!text || parsing) return;
     setParsing(true);
     setUnmatched([]);
+    setParseError(false);
     try {
       const res = await parseIngredientsText(text, locale);
       onAddMany(res.ingredients);
       setUnmatched(res.unmatched);
       setNatural("");
     } catch {
-      setUnmatched([]);
+      setParseError(true);
     } finally {
       setParsing(false);
     }
@@ -110,6 +112,9 @@ export function IngredientPanel({ selected, onToggle, onRemove, onClear, onAddMa
             {zh ? "未识别：" : "Unmatched:"} {unmatched.join(", ")}
           </p>
         )}
+        {parseError && (
+          <p className="mt-2 text-xs text-destructive">{t("error.title")}</p>
+        )}
       </div>
 
       {/* Search */}
@@ -134,6 +139,7 @@ export function IngredientPanel({ selected, onToggle, onRemove, onClear, onAddMa
                     setQuery("");
                   }}
                   className="flex w-full items-center gap-2.5 px-3 py-2 text-left hover:bg-accent"
+                  aria-pressed={active}
                 >
                   <span className="text-lg">{i.emoji}</span>
                   <span className="flex-1 text-sm">{name(i)}</span>
@@ -161,6 +167,7 @@ export function IngredientPanel({ selected, onToggle, onRemove, onClear, onAddMa
                 key={id}
                 type="button"
                 onClick={() => onToggle(id)}
+                aria-pressed={active}
                 className={cn(
                   "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors",
                   active
@@ -208,6 +215,7 @@ export function IngredientPanel({ selected, onToggle, onRemove, onClear, onAddMa
                 key={i.id}
                 type="button"
                 onClick={() => onToggle(i.id)}
+                aria-pressed={active}
                 className={cn(
                   "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm transition-colors",
                   active

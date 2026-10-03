@@ -10,6 +10,8 @@
   "actions.remove": "Remove",
   "actions.apply": "Apply",
   "actions.reset": "Reset",
+  "actions.copy": "Copy recipe",
+  "actions.copied": "Copied!",
   "loading": "Loading…",
   "error.title": "Something went wrong",
   "error.retry": "Try again",

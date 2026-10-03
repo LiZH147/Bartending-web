@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Clock, Gauge, Heart, Check, AlertTriangle, FlaskConical } from "lucide-react";
+import { ArrowLeft, Clock, Gauge, Heart, Check, Copy, AlertTriangle, FlaskConical } from "lucide-react";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { enrichCocktailDetail, fetchCocktailDetail } from "@/lib/api";
 import { useCabinet, useFavorites } from "@/lib/store";
@@ -37,6 +37,7 @@ export function CocktailDetailClient({
   const [cocktail, setCocktail] = useState<CocktailResult | null>(initial);
   const [error, setError] = useState<string | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const cabinetKey = cabinet.items.join(",");
   const ownedIdsKey = ownedIds.join(",");
@@ -134,6 +135,23 @@ export function CocktailDetailClient({
   const c = cocktail;
   const isFavorite = favorites.items.includes(c.id);
 
+  const copyRecipe = async () => {
+    const text = [
+      c.name,
+      "",
+      ...c.ingredients.map((ing) => (ing.amount ? `${ing.amount} ${ing.name}` : ing.name)),
+      "",
+      ...c.steps.map((step, i) => `${i + 1}. ${step}`),
+    ].join("\n");
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      /* clipboard unavailable */
+    }
+  };
+
   return (
     <div className="container pb-16 pt-6">
       <div className="mb-6 flex items-center justify-between">
@@ -145,15 +163,22 @@ export function CocktailDetailClient({
           <ArrowLeft className="h-4 w-4" />
           {t("cocktail.back")}
         </button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => favorites.toggle(c.id)}
-          className={cn(isFavorite && "text-brand-amber")}
-        >
-          <Heart className={cn("h-4 w-4", isFavorite && "fill-brand-amber text-brand-amber")} />
-          {isFavorite ? t("favorites.actions.remove") : t("favorites.actions.add")}
-        </Button>
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="sm" onClick={copyRecipe} aria-label={t("actions.copy")}>
+            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copied ? t("actions.copied") : t("actions.copy")}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => favorites.toggle(c.id)}
+            className={cn(isFavorite && "text-brand-amber")}
+            aria-pressed={isFavorite}
+          >
+            <Heart className={cn("h-4 w-4", isFavorite && "fill-brand-amber text-brand-amber")} />
+            {isFavorite ? t("favorites.actions.remove") : t("favorites.actions.add")}
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[420px_1fr]">

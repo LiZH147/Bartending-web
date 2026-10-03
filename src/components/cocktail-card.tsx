@@ -53,16 +53,17 @@ export function CocktailCard({ cocktail: c, isFavorite, onToggleFavorite, index 
         {onToggleFavorite && (
           <button
             type="button"
-            aria-label="favorite"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               onToggleFavorite(c.id);
             }}
             className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/45 backdrop-blur transition-colors hover:bg-black/65"
+            aria-label={isFavorite ? t("favorites.actions.remove") : t("favorites.actions.add")}
+            aria-pressed={isFavorite}
           >
             <Heart
-              className={cn("h-4.5 w-4.5", isFavorite ? "fill-brand-amber text-brand-amber" : "text-white")}
+              className={cn("h-4 w-4", isFavorite ? "fill-brand-amber text-brand-amber" : "text-white")}
             />
           </button>
         )}

@@ -10,6 +10,8 @@
   "actions.remove": "移除",
   "actions.apply": "应用",
   "actions.reset": "重置",
+  "actions.copy": "复制配方",
+  "actions.copied": "已复制",
   "loading": "加载中…",
   "error.title": "出了点问题",
   "error.retry": "重试",

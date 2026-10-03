@@ -4,7 +4,7 @@ import { useI18n } from "@/lib/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
 
 export function LanguageSwitcher() {
-  const { locale, setLocale } = useI18n();
+  const { locale, setLocale, t } = useI18n();
 
   const options = [
     { code: "en" as const, label: "EN" },
@@ -15,7 +15,7 @@ export function LanguageSwitcher() {
     <div
       className="flex items-center rounded-full border border-border bg-secondary/60 p-0.5 text-xs"
       role="group"
-      aria-label="Language"
+      aria-label={t("language.label")}
     >
       {options.map((o) => (
         <button
