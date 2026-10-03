@@ -66,6 +66,14 @@ export function isLocale(value: unknown): value is Locale {
 
 export function resolveInitialLocale(): Locale {
   if (typeof window === "undefined") return "en";
+  // `?lang=` URL variants back the hreflang alternates in sitemap.xml, so a
+  // crawler (or a shared link) can address a specific language directly.
+  try {
+    const q = new URLSearchParams(window.location.search).get("lang");
+    if (isLocale(q)) return q;
+  } catch {
+    /* ignore */
+  }
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (isLocale(saved)) return saved;

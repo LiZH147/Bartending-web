@@ -14,7 +14,15 @@ import { DIFFICULTY_LABELS, FLAVOR_LABELS, METHOD_LABELS, STRENGTH_LABELS } from
 import type { CocktailResult } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
-export function CocktailDetailClient({ id, ownedIds = [] }: { id: string; ownedIds?: string[] }) {
+export function CocktailDetailClient({
+  id,
+  ownedIds = [],
+  initial = null,
+}: {
+  id: string;
+  ownedIds?: string[];
+  initial?: CocktailResult | null;
+}) {
   const { t, locale } = useI18n();
   const router = useRouter();
   const zh = locale === "zh-CN";
@@ -26,8 +34,7 @@ export function CocktailDetailClient({ id, ownedIds = [] }: { id: string; ownedI
     else router.push("/");
   };
 
-  const [cocktail, setCocktail] = useState<CocktailResult | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [cocktail, setCocktail] = useState<CocktailResult | null>(initial);
   const [error, setError] = useState<string | null>(null);
   const [notFound, setNotFound] = useState(false);
 
@@ -44,21 +51,16 @@ export function CocktailDetailClient({ id, ownedIds = [] }: { id: string; ownedI
 
   useEffect(() => {
     let active = true;
-    setLoading(true);
     setError(null);
     setNotFound(false);
     fetchCocktailDetail(id, owned, locale)
       .then((c) => {
-        if (active) {
-          setCocktail(c);
-          setLoading(false);
-        }
+        if (active) setCocktail(c);
       })
       .catch((e) => {
         if (active) {
           if (e instanceof Error && e.message.includes("404")) setNotFound(true);
           else setError(e instanceof Error ? e.message : String(e));
-          setLoading(false);
         }
       });
     return () => {
@@ -96,32 +98,37 @@ export function CocktailDetailClient({ id, ownedIds = [] }: { id: string; ownedI
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cocktail?.id, cabinetKey, ownedIdsKey, locale]);
 
-  if (loading) return <DetailSkeleton />;
-
-  if (notFound) {
-    return (
-      <div className="container py-16">
-        <div className="mx-auto max-w-md rounded-xl border border-border bg-card p-8 text-center">
-          <p className="mb-4 text-4xl">🍸</p>
-          <h1 className="font-display text-2xl font-semibold text-brand-cream">404</h1>
-          <p className="mb-6 text-sm text-muted-foreground">Cocktail not found</p>
-          <Button variant="outline" onClick={goBack}>{t("actions.back")}</Button>
+  // Show a skeleton only while there is no content for the *requested* id (e.g.
+  // client-side navigation to a different cocktail). With server-seeded `initial`
+  // data the page renders fully on first paint instead of flashing a skeleton.
+  if (!cocktail || cocktail.id !== id) {
+    if (notFound) {
+      return (
+        <div className="container py-16">
+          <div className="mx-auto max-w-md rounded-xl border border-border bg-card p-8 text-center">
+            <p className="mb-4 text-4xl">🍸</p>
+            <h1 className="font-display text-2xl font-semibold text-brand-cream">404</h1>
+            <p className="mb-6 text-sm text-muted-foreground">Cocktail not found</p>
+            <Button variant="outline" onClick={goBack}>{t("actions.back")}</Button>
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-  if (error || !cocktail) {
-    return (
-      <div className="container py-16">
-        <div className="mx-auto max-w-md rounded-xl border border-destructive/40 bg-destructive/10 p-8 text-center">
-          <AlertTriangle className="mx-auto mb-3 h-8 w-8 text-destructive" />
-          <p className="mb-1 font-medium">{t("error.title")}</p>
-          <p className="mb-4 text-sm text-muted-foreground">{error}</p>
-          <Button variant="outline" onClick={goBack}>{t("actions.back")}</Button>
+    if (error) {
+      return (
+        <div className="container py-16">
+          <div className="mx-auto max-w-md rounded-xl border border-destructive/40 bg-destructive/10 p-8 text-center">
+            <AlertTriangle className="mx-auto mb-3 h-8 w-8 text-destructive" />
+            <p className="mb-1 font-medium">{t("error.title")}</p>
+            <p className="mb-4 text-sm text-muted-foreground">{error}</p>
+            <Button variant="outline" onClick={goBack}>{t("actions.back")}</Button>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    return <DetailSkeleton />;
   }
 
   const c = cocktail;

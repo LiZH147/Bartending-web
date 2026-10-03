@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import { RecommendClient } from "@/components/recommend-client";
 import type { Preferences } from "@/lib/schemas";
+
+// Query-parameter results page — noindex so only the canonical cocktail pages
+// are indexed (avoids duplicate/thin content, per knowledge-base guidance).
+export const metadata: Metadata = {
+  title: "Your Matches",
+  robots: { index: false, follow: false },
+};
 
 function asArray(v: string | string[] | undefined): string[] {
   if (!v) return [];
