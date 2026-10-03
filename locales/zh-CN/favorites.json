@@ -1,0 +1,11 @@
+{
+  "favorites.title": "收藏",
+  "favorites.subtitle": "你保存起来、以后想做的鸡尾酒。",
+  "favorites.count": "已收藏 {count} 杯",
+  "favorites.empty.title": "还没有收藏",
+  "favorites.empty.subtitle": "在任意鸡尾酒上点击心形按钮即可收藏到此处。",
+  "favorites.actions.open": "打开",
+  "favorites.actions.add": "加入收藏",
+  "favorites.actions.remove": "移除",
+  "favorites.actions.mixAll": "调一杯收藏"
+}

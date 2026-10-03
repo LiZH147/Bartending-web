@@ -1,0 +1,11 @@
+{
+  "cabinet.title": "我的酒柜",
+  "cabinet.subtitle": "你家中常备的酒水和材料。",
+  "cabinet.count": "{count} 种材料",
+  "cabinet.empty.title": "你的酒柜还是空的",
+  "cabinet.empty.subtitle": "从首页添加材料，建立你的私人酒柜。",
+  "cabinet.actions.search": "用我的酒柜调酒",
+  "cabinet.actions.use": "用于搜索",
+  "cabinet.actions.remove": "移除",
+  "cabinet.actions.addShortcut": "添加材料"
+}

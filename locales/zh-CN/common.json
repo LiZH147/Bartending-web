@@ -1,0 +1,22 @@
+{
+  "app.name": "NIGHTCAP",
+  "app.tagline": "个人鸡尾酒柜",
+  "nav.home": "首页",
+  "nav.cabinet": "我的酒柜",
+  "nav.favorites": "收藏",
+  "actions.back": "返回",
+  "actions.close": "关闭",
+  "actions.clear": "清空",
+  "actions.remove": "移除",
+  "actions.apply": "应用",
+  "actions.reset": "重置",
+  "loading": "加载中…",
+  "error.title": "出了点问题",
+  "error.retry": "重试",
+  "empty.title": "这里还没有内容",
+  "empty.subtitle": "先添加几种材料试试。",
+  "badge.classic": "经典",
+  "badge.ai": "AI 创意",
+  "footer.note": "理性饮酒 · 18+",
+  "language.label": "语言"
+}

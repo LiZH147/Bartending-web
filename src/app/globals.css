@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 16% 7%;
+    --foreground: 42 38% 92%;
+
+    --card: 30 14% 9.5%;
+    --card-foreground: 42 38% 92%;
+
+    --popover: 30 14% 9.5%;
+    --popover-foreground: 42 38% 92%;
+
+    --primary: 38 90% 55%;
+    --primary-foreground: 30 22% 8%;
+
+    --secondary: 30 10% 16%;
+    --secondary-foreground: 42 30% 85%;
+
+    --muted: 30 9% 15%;
+    --muted-foreground: 34 12% 60%;
+
+    --accent: 345 45% 26%;
+    --accent-foreground: 42 38% 92%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 42 38% 92%;
+
+    --border: 32 12% 20%;
+    --input: 32 12% 20%;
+    --ring: 38 90% 55%;
+
+    --amber: 38 90% 55%;
+    --burgundy: 345 45% 30%;
+    --cream: 42 40% 94%;
+    --gold: 42 85% 62%;
+
+    --radius: 0.75rem;
+
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-serif: Georgia, "Times New Roman", "Palatino Linotype", Palatino, serif;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image:
+      radial-gradient(1200px 600px at 15% -10%, hsl(var(--burgundy) / 0.18), transparent 60%),
+      radial-gradient(900px 500px at 95% 0%, hsl(var(--amber) / 0.1), transparent 55%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: hsl(var(--amber) / 0.35);
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-serif);
+  }
+}
+
+@layer components {
+  .text-glow {
+    text-shadow: 0 0 40px hsl(var(--amber) / 0.35);
+  }
+  .card-hover {
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    border-color: hsl(var(--amber) / 0.35);
+    box-shadow: 0 16px 40px -16px hsl(var(--amber) / 0.2);
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+}
+
+@layer utilities {
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+}

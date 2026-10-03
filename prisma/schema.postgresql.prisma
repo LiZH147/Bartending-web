@@ -1,0 +1,131 @@
+// Prisma schema — PostgreSQL variant for production / Vercel.
+// Keep models in sync with schema.prisma. Only the datasource `provider`
+// differs (plus this file lives alongside the SQLite default).
+//
+// The `scripts/db.mjs` helper selects this schema automatically when
+// DATABASE_PROVIDER=postgresql, or when DATABASE_URL starts with postgres://.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Ingredient {
+  id              String                @id
+  nameEn          String                @map("name_en")
+  nameZh          String                @map("name_zh")
+  category        String
+  flavorProfile   String                @map("flavor_profile") // JSON string[]
+  emoji           String                @default("🧂")
+  color           String                @default("#8a6d3b")
+
+  aliases             IngredientAlias[]
+  cocktailIngredients CocktailIngredient[]
+  userInventories     UserInventory[]
+
+  @@index([category])
+  @@map("ingredients")
+}
+
+model IngredientAlias {
+  id           Int        @id @default(autoincrement())
+  ingredientId String     @map("ingredient_id")
+  alias        String
+  language     String     @default("any") // "en" | "zh" | "any"
+
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([alias])
+  @@index([ingredientId])
+  @@map("ingredient_aliases")
+}
+
+model Cocktail {
+  id            String   @id
+  nameEn        String   @map("name_en")
+  nameZh        String   @map("name_zh")
+  descriptionEn String   @map("description_en")
+  descriptionZh String   @map("description_zh")
+  glass         String
+  method        String // shaken | stirred | built | muddled | blended
+  difficulty    String // easy | medium | advanced
+  strength      String // none | low | medium | high
+  flavorProfile String   @map("flavor_profile") // JSON string[]
+  stepsEn       String   @map("steps_en") // JSON string[]
+  stepsZh       String   @map("steps_zh") // JSON string[]
+  popularity    Float    @default(0.5)
+  novelty       Float    @default(0.5)
+  source        String   @default("classic") // classic | ai
+  imageUrl      String?  @map("image_url")
+  prepTime      Int      @default(5) @map("prep_time_minutes")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  ingredients CocktailIngredient[]
+  favorites   Favorite[]
+
+  @@index([difficulty])
+  @@index([strength])
+  @@map("cocktails")
+}
+
+model CocktailIngredient {
+  id           Int     @id @default(autoincrement())
+  cocktailId   String  @map("cocktail_id")
+  ingredientId String  @map("ingredient_id")
+  amount       String  @default("")
+  optional     Boolean @default(false)
+  note         String  @default("")
+
+  cocktail   Cocktail   @relation(fields: [cocktailId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([cocktailId, ingredientId])
+  @@index([ingredientId])
+  @@map("cocktail_ingredients")
+}
+
+// ------------------------------------------------------------------
+// User-scoped tables (provided for future auth; MVP uses localStorage
+// for anonymous cabinet/favorites).
+// ------------------------------------------------------------------
+
+model User {
+  id       String   @id @default(cuid())
+  language String   @default("en")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  inventory UserInventory[]
+  favorites Favorite[]
+
+  @@map("users")
+}
+
+model UserInventory {
+  id           Int    @id @default(autoincrement())
+  userId       String @map("user_id")
+  ingredientId String @map("ingredient_id")
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, ingredientId])
+  @@map("user_inventory")
+}
+
+model Favorite {
+  id         Int    @id @default(autoincrement())
+  userId     String @map("user_id")
+  cocktailId String @map("cocktail_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cocktail Cocktail @relation(fields: [cocktailId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, cocktailId])
+  @@map("favorites")
+}

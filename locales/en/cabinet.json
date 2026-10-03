@@ -1,0 +1,11 @@
+{
+  "cabinet.title": "My Cabinet",
+  "cabinet.subtitle": "The bottles and ingredients you keep at home.",
+  "cabinet.count": "{count} ingredients",
+  "cabinet.empty.title": "Your cabinet is empty",
+  "cabinet.empty.subtitle": "Add ingredients from the homepage to build your personal bar.",
+  "cabinet.actions.search": "Mix with my cabinet",
+  "cabinet.actions.use": "Use in search",
+  "cabinet.actions.remove": "Remove",
+  "cabinet.actions.addShortcut": "Add ingredients"
+}

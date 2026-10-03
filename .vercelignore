@@ -1,0 +1,10 @@
+# Secrets — never upload
+.env
+.env.*
+!.env.example
+
+# Local SQLite database (production uses PostgreSQL)
+prisma/dev.db
+prisma/dev.db-journal
+*.db
+*.db-journal

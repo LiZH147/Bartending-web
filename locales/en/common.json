@@ -1,0 +1,22 @@
+{
+  "app.name": "NIGHTCAP",
+  "app.tagline": "Personal cocktail cabinet",
+  "nav.home": "Home",
+  "nav.cabinet": "My Cabinet",
+  "nav.favorites": "Favorites",
+  "actions.back": "Back",
+  "actions.close": "Close",
+  "actions.clear": "Clear all",
+  "actions.remove": "Remove",
+  "actions.apply": "Apply",
+  "actions.reset": "Reset",
+  "loading": "Loading…",
+  "error.title": "Something went wrong",
+  "error.retry": "Try again",
+  "empty.title": "Nothing here yet",
+  "empty.subtitle": "Try adding a few ingredients first.",
+  "badge.classic": "Classic",
+  "badge.ai": "AI Creation",
+  "footer.note": "Drink responsibly · 18+",
+  "language.label": "Language"
+}
