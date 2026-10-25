@@ -21,5 +21,11 @@
   "cocktail.match": "{pct}% match",
   "cocktail.back": "Back to results",
   "cocktail.source.classic": "Classic",
-  "cocktail.source.ai": "AI Creation"
+  "cocktail.source.ai": "AI Creation",
+  "cocktail.nutrition.title": "Estimated nutrition",
+  "cocktail.nutrition.calories": "Calories",
+  "cocktail.nutrition.sugar": "Sugar",
+  "cocktail.nutrition.kcal": "kcal",
+  "cocktail.nutrition.grams": "g",
+  "cocktail.nutrition.note": "Estimated per serving from standard ingredient values — actual figures vary with brands and pour size."
 }

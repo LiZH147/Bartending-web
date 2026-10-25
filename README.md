@@ -215,6 +215,31 @@ src/
 
 ---
 
+## SEO & structured data
+
+Every localized cocktail page (/en/cocktail/[id], /zh-CN/cocktail/[id]) is
+statically rendered with its own canonical, hreflang alternates, OpenGraph/Twitter
+cards and Schema.org Recipe + BreadcrumbList JSON-LD (src/lib/seo.ts).
+
+Two rules keep the markup policy-safe, and both are enforced in code:
+
+1. Structured data must match visible content. The nutrition estimate is computed
+   server-side from the canonical ingredient amounts (src/lib/nutrition.ts) and
+   rendered in the page's "Estimated nutrition" block; each HowToStep name is
+   derived from the visible step text; step URLs deep-link to the visible step
+   anchors (#step-N). Step photos are only attached where they truthfully show
+   that step (the final presentation step reuses the recipe photo; pass real
+   per-step images through the stepImages option, or switch stepImageMode).
+2. Never fabricate ratings. aggregateRating is only emitted when a real on-site
+   rating aggregate is supplied - inventing one is a structured-data policy
+   violation (manual-action risk), so the field stays absent until a real
+   ratings feature ships.
+
+The full remediation plan (issue -> fix -> acceptance checklist) lives in
+knowledge-base/work/structured-data/recipe-jsonld-优化方案.md.
+
+---
+
 ## Notes
 
 - Classic recipes come from the curated, seeded database — the LLM is never

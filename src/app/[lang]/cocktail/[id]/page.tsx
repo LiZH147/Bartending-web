@@ -4,7 +4,7 @@ import { CocktailDetailClient } from "@/components/cocktail-detail";
 import { CocktailGrid, type CocktailLink } from "@/components/cocktail-grid";
 import { getCocktail, listCocktails } from "@/lib/data";
 import { buildCocktailDetail } from "@/lib/recommend";
-import { abs, recipeJsonLd, SITE_NAME } from "@/lib/seo";
+import { abs, breadcrumbJsonLd, jsonLdHtml, recipeJsonLd, SITE_NAME } from "@/lib/seo";
 
 function asArray(v: string | string[] | undefined): string[] {
   if (!v) return [];
@@ -109,7 +109,7 @@ export default async function CocktailDetailPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: jsonLdHtml(
             recipeJsonLd({
               name: initial.name,
               description: initial.description,
@@ -118,7 +118,24 @@ export default async function CocktailDetailPage({
               imageUrl: initial.imageUrl,
               prepTime: initial.prepTime,
               url: `/${lang}/cocktail/${decoded}`,
+              lang,
+              datePublished: initial.datePublished,
+              flavors: initial.flavors,
+              method: initial.method,
+              glass: initial.glass,
+              nutrition: initial.nutrition,
             }),
+          ),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdHtml(
+            breadcrumbJsonLd([
+              { name: SITE_NAME, url: `/${lang}` },
+              { name: initial.name, url: `/${lang}/cocktail/${decoded}` },
+            ]),
           ),
         }}
       />

@@ -244,6 +244,27 @@ export function CocktailDetailClient({
             </div>
           </div>
 
+          {/* Estimated nutrition — the same numbers that back Recipe.nutrition
+              in the page's JSON-LD, so markup and visible content never drift. */}
+          {c.nutrition && (
+            <section aria-labelledby="nutrition-heading">
+              <h2 id="nutrition-heading" className="mb-3 font-display text-xl font-semibold text-brand-cream">
+                {t("cocktail.nutrition.title")}
+              </h2>
+              <div className="grid grid-cols-2 gap-3 sm:max-w-md">
+                <MetaItem
+                  label={t("cocktail.nutrition.calories")}
+                  value={`${c.nutrition.calories} ${t("cocktail.nutrition.kcal")}`}
+                />
+                <MetaItem
+                  label={t("cocktail.nutrition.sugar")}
+                  value={`${c.nutrition.sugarG} ${t("cocktail.nutrition.grams")}`}
+                />
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">{t("cocktail.nutrition.note")}</p>
+            </section>
+          )}
+
           {/* Ingredients */}
           <section>
             <h2 className="mb-3 font-display text-xl font-semibold text-brand-cream">
@@ -335,7 +356,11 @@ export function CocktailDetailClient({
             <h2 className="mb-3 font-display text-xl font-semibold text-brand-cream">{t("cocktail.steps")}</h2>
             <ol className="space-y-3">
               {c.steps.map((step, i) => (
-                <li key={i} className="flex gap-3 rounded-lg border border-border bg-card p-3">
+                <li
+                  key={i}
+                  id={`step-${i + 1}`}
+                  className="flex scroll-mt-24 gap-3 rounded-lg border border-border bg-card p-3"
+                >
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-amber/15 font-display text-sm font-semibold text-brand-amber">
                     {i + 1}
                   </span>

@@ -7,6 +7,7 @@ import {
   DEFAULT_TITLE,
   SITE_NAME,
   SITE_URL,
+  jsonLdHtml,
   websiteJsonLd,
 } from "@/lib/seo";
 
@@ -61,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </noscript>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml(websiteJsonLd()) }}
         />
         <Analytics />
       </body>

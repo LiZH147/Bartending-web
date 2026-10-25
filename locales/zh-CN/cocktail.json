@@ -21,5 +21,11 @@
   "cocktail.match": "{pct}% 匹配",
   "cocktail.back": "返回结果",
   "cocktail.source.classic": "经典",
-  "cocktail.source.ai": "AI 创意"
+  "cocktail.source.ai": "AI 创意",
+  "cocktail.nutrition.title": "营养成分（估算）",
+  "cocktail.nutrition.calories": "热量",
+  "cocktail.nutrition.sugar": "糖",
+  "cocktail.nutrition.kcal": "千卡",
+  "cocktail.nutrition.grams": "克",
+  "cocktail.nutrition.note": "按标准食材营养值估算每杯含量，实际数值随品牌与倒酒量有所不同。"
 }

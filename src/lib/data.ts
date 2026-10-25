@@ -40,6 +40,8 @@ export interface HydratedCocktail {
   source: Source;
   imageUrl: string | null;
   prepTime: number;
+  /** ISO timestamp the recipe row was first created (Recipe.datePublished). */
+  createdAt: string;
   ingredients: HydratedCocktailIngredient[];
 }
 
@@ -79,6 +81,7 @@ interface CocktailRow {
   source: string;
   imageUrl: string | null;
   prepTime: number;
+  createdAt: Date;
   ingredients?: CocktailIngredientRow[];
 }
 
@@ -114,6 +117,7 @@ function hydrateCocktailRow(row: CocktailRow): HydratedCocktail {
     source: row.source as Source,
     imageUrl: row.imageUrl,
     prepTime: row.prepTime,
+    createdAt: row.createdAt.toISOString(),
     ingredients: (row.ingredients ?? []).map((ci) => ({
       ingredient: hydrateIngredient(ci.ingredient),
       amount: ci.amount,

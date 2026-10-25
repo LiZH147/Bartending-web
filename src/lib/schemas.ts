@@ -69,6 +69,13 @@ export const SubstitutionSchema = z.object({
 
 export const ResultTypeSchema = z.enum(["available", "almost", "creative"]);
 
+export const NutritionEstimateSchema = z.object({
+  calories: z.number().nonnegative(),
+  sugarG: z.number().nonnegative(),
+  volumeMl: z.number().nonnegative(),
+});
+export type NutritionEstimate = z.infer<typeof NutritionEstimateSchema>;
+
 export const CocktailResultSchema = z.object({
   type: ResultTypeSchema,
   id: z.string(),
@@ -94,6 +101,11 @@ export const CocktailResultSchema = z.object({
   substitutions: z.record(z.string(), z.array(SubstitutionSchema)).optional(),
   explanation: z.string().optional(),
   score: z.number(),
+  // Per-serving nutrition estimate (server-computed from canonical amounts).
+  // Kept on the wire so the visible page and its Recipe JSON-LD can never drift.
+  nutrition: NutritionEstimateSchema.nullable().optional(),
+  // ISO date the recipe was first published (drives Recipe.datePublished).
+  datePublished: z.string().optional(),
 });
 export type CocktailResult = z.infer<typeof CocktailResultSchema>;
 
