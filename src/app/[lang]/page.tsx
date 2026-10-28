@@ -29,6 +29,7 @@ export async function generateMetadata({
       title: meta.title,
       description: meta.description,
       url: canonical,
+      images: [abs(`/${locale}/opengraph-image`)],
     },
   };
 }

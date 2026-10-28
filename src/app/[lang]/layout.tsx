@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { notFound } from "next/navigation";
 import { Analytics } from "@vercel/analytics/react";
 import "../globals.css";
 import { I18nProvider, type Locale } from "@/lib/i18n/I18nProvider";
@@ -23,6 +24,8 @@ import {
  * opengraph-image) and route handlers, which need no layout. "/" is a redirect
  * handled by middleware (src/middleware.ts).
  */
+const LANGS = ["en", "zh-CN"] as const;
+
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "zh-CN" }];
 }
@@ -33,6 +36,9 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params;
+  // Unknown language prefixes (e.g. /no-such-page matching this dynamic segment)
+  // must 404 rather than quietly render the English home page.
+  if (!LANGS.includes(lang as (typeof LANGS)[number])) notFound();
   const locale: Locale = lang === "zh-CN" ? "zh-CN" : "en";
   const meta = LOCALE_META[locale];
   return {
@@ -84,6 +90,10 @@ export default async function RootLayout({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
+  // Unknown prefixes (e.g. /no-such-page) match this dynamic segment; without this
+  // guard they would render the home page at an arbitrary URL (a soft 404 that
+  // search engines can index as duplicate content).
+  if (!LANGS.includes(lang as (typeof LANGS)[number])) notFound();
   const locale: Locale = lang === "zh-CN" ? "zh-CN" : "en";
 
   return (

@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    // The root layout lives in app/[lang]/ (localized <html lang>), so a global
+    // not-found boundary needs this document instead of an app/ layout.
+    globalNotFound: true,
+  },
   images: {
     remotePatterns: [
       {

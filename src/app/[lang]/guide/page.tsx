@@ -42,8 +42,16 @@ export async function generateMetadata({
       url: canonical,
       siteName: SITE_NAME,
       locale: locale === "zh-CN" ? "zh_CN" : "en_US",
+      // A page-level openGraph replaces the inherited object, so name the
+      // generated OG image explicitly.
+      images: [abs(`/${locale}/opengraph-image`)],
     },
-    twitter: { card: "summary", title: `${title} · ${SITE_NAME}`, description },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} · ${SITE_NAME}`,
+      description,
+      images: [abs(`/${locale}/opengraph-image`)],
+    },
   };
 }
 
