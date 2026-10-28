@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { listCocktails } from "@/lib/data";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { CocktailGrid, type CocktailLink } from "@/components/cocktail-grid";
-import { abs, SITE_NAME } from "@/lib/seo";
+import { abs, articleJsonLd, breadcrumbJsonLd, jsonLdHtml, SITE_NAME } from "@/lib/seo";
 
 const TITLE = {
   en: "Home Bartending Guide",
@@ -28,7 +29,11 @@ export async function generateMetadata({
     description,
     alternates: {
       canonical,
-      languages: { en: abs("/en/guide"), "zh-CN": abs("/zh-CN/guide") },
+      languages: {
+        en: abs("/en/guide"),
+        "zh-CN": abs("/zh-CN/guide"),
+        "x-default": abs("/en/guide"),
+      },
     },
     openGraph: {
       type: "article",
@@ -114,6 +119,38 @@ export default async function GuidePage({
 
   return (
     <div className="container max-w-3xl pb-16 pt-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdHtml(
+            articleJsonLd({
+              headline: isZh ? TITLE["zh-CN"] : TITLE.en,
+              description: isZh ? DESCRIPTION["zh-CN"] : DESCRIPTION.en,
+              url: `/${isZh ? "zh-CN" : "en"}/guide`,
+              lang: isZh ? "zh-CN" : "en",
+            }),
+          ),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLdHtml(
+            breadcrumbJsonLd([
+              { name: isZh ? "首页" : "Home", url: `/${isZh ? "zh-CN" : "en"}` },
+              { name: isZh ? "调酒入门" : "Bartending guide", url: `/${isZh ? "zh-CN" : "en"}/guide` },
+            ]),
+          ),
+        }}
+      />
+      <div className="mb-6">
+        <Breadcrumbs
+          items={[
+            { label: isZh ? "首页" : "Home", href: `/${isZh ? "zh-CN" : "en"}` },
+            { label: isZh ? "调酒入门" : "Bartending guide" },
+          ]}
+        />
+      </div>
       <article>
         <h1 className="font-display text-3xl font-bold text-brand-cream sm:text-4xl">
           {isZh ? TITLE["zh-CN"] : TITLE.en}

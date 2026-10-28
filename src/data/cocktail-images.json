@@ -1,0 +1,247 @@
+{
+  "ai-citrus-alchemist": {
+    "file": "/images/cocktails/ai-citrus-alchemist.jpg",
+    "bytes": 31941,
+    "sha256": "092944a64f3b494700e52a16b9f69b6a9cc980c01bcd18bf4577bcee137b7a59"
+  },
+  "ai-citrus-collins": {
+    "file": "/images/cocktails/ai-citrus-collins.jpg",
+    "bytes": 65320,
+    "sha256": "285a768f5a764b23a75505aaac38e2987746d1449eab16cc1c7aac18602bb93f"
+  },
+  "ai-citrus-reverie": {
+    "file": "/images/cocktails/ai-citrus-reverie.jpg",
+    "bytes": 60706,
+    "sha256": "914e69c5d0c0d37ceb921e4009a94f027d4926364cda42813cc960620ff085e1"
+  },
+  "ai-desert-sunrise": {
+    "file": "/images/cocktails/ai-desert-sunrise.jpg",
+    "bytes": 62510,
+    "sha256": "7302baf9e1172c18a2511ce241a48730093f04d31e410f69c1ffaec3a3b3fe9d"
+  },
+  "ai-frozen-meridian": {
+    "file": "/images/cocktails/ai-frozen-meridian.jpg",
+    "bytes": 55931,
+    "sha256": "00afd7f56903093ae4165d45a4dfb6baf840ed15cb1f9666707339e6484239c6"
+  },
+  "ai-golden-hour": {
+    "file": "/images/cocktails/ai-golden-hour.jpg",
+    "bytes": 65320,
+    "sha256": "285a768f5a764b23a75505aaac38e2987746d1449eab16cc1c7aac18602bb93f"
+  },
+  "ai-golden-sour": {
+    "file": "/images/cocktails/ai-golden-sour.jpg",
+    "bytes": 55931,
+    "sha256": "00afd7f56903093ae4165d45a4dfb6baf840ed15cb1f9666707339e6484239c6"
+  },
+  "ai-three-part-harmony": {
+    "file": "/images/cocktails/ai-three-part-harmony.jpg",
+    "bytes": 55931,
+    "sha256": "00afd7f56903093ae4165d45a4dfb6baf840ed15cb1f9666707339e6484239c6"
+  },
+  "ai-velvet-fizz": {
+    "file": "/images/cocktails/ai-velvet-fizz.jpg",
+    "bytes": 62550,
+    "sha256": "61dbdebdc8ce32cee4f502748ec5740ecfabdbe3df057c408070e08341957746"
+  },
+  "ai-verdant-compass": {
+    "file": "/images/cocktails/ai-verdant-compass.jpg",
+    "bytes": 38116,
+    "sha256": "11eb352d32eb77308afb77d96281c937397fa62d704cf604d679d7a9df7be513"
+  },
+  "ai-verdant-solstice": {
+    "file": "/images/cocktails/ai-verdant-solstice.jpg",
+    "bytes": 55931,
+    "sha256": "00afd7f56903093ae4165d45a4dfb6baf840ed15cb1f9666707339e6484239c6"
+  },
+  "americano": {
+    "file": "/images/cocktails/americano.jpg",
+    "bytes": 94065,
+    "sha256": "3807bc046fc6f53ca9029ae45451aac6f19f31c3fb07285d1ffec0e53ba563a5"
+  },
+  "aperol_spritz": {
+    "file": "/images/cocktails/aperol_spritz.jpg",
+    "bytes": 82323,
+    "sha256": "d6add769c7ac8a279558c48e2a24ec680d1f7caa3d71d16a00d916390e3b2778"
+  },
+  "aviation": {
+    "file": "/images/cocktails/aviation.jpg",
+    "bytes": 91826,
+    "sha256": "4c8ade6184e2ef1f7156c173f555645721bb8dce6cc40af1950c5e8aefb4048c"
+  },
+  "bees_knees": {
+    "file": "/images/cocktails/bees_knees.jpg",
+    "bytes": 49173,
+    "sha256": "4a4605c1e638807b19b13c5b4010cfb33f4ffaf405044375d3b839703b4b8a14"
+  },
+  "bloody_mary": {
+    "file": "/images/cocktails/bloody_mary.jpg",
+    "bytes": 72539,
+    "sha256": "67e31c3d36d1cb479e44b316695cfc070bd410091748deee74656701143fbfd0"
+  },
+  "boulevardier": {
+    "file": "/images/cocktails/boulevardier.jpg",
+    "bytes": 81020,
+    "sha256": "2d48d304909a1a10ad59e905d9aaea74faa517b8e97a9149e280dfc977363d92"
+  },
+  "brandy_alexander": {
+    "file": "/images/cocktails/brandy_alexander.jpg",
+    "bytes": 56186,
+    "sha256": "7f4c3cc86f04ec2c4a31be31afdf84287eb166d8fe84766104fc809711889f71"
+  },
+  "caipirinha": {
+    "file": "/images/cocktails/caipirinha.jpg",
+    "bytes": 72558,
+    "sha256": "0791bd277ee4d77d88b3a546d9ac362a393d2b352d0483ccb8cd6b500e90cb3d"
+  },
+  "cosmopolitan": {
+    "file": "/images/cocktails/cosmopolitan.jpg",
+    "bytes": 38697,
+    "sha256": "df7b0eb2603f7235253d89eeac33efd567813e2bd6d3be8df86ff2693a7082b5"
+  },
+  "cuba_libre": {
+    "file": "/images/cocktails/cuba_libre.jpg",
+    "bytes": 65313,
+    "sha256": "3ca1be364bcad8d70a72759ea8e1d7abc6e505907e8777271738b924667e379e"
+  },
+  "daiquiri": {
+    "file": "/images/cocktails/daiquiri.jpg",
+    "bytes": 60706,
+    "sha256": "914e69c5d0c0d37ceb921e4009a94f027d4926364cda42813cc960620ff085e1"
+  },
+  "dark_and_stormy": {
+    "file": "/images/cocktails/dark_and_stormy.jpg",
+    "bytes": 65123,
+    "sha256": "e47afe3bc5c0c55cb88c61398d27f248643cb3823c6cea1c9d430ba9d474dbc7"
+  },
+  "dry_martini": {
+    "file": "/images/cocktails/dry_martini.jpg",
+    "bytes": 87684,
+    "sha256": "3fdfe6645121077a55704d19fdf5534961ba110ac12dd275ba5df90ea92d17c8"
+  },
+  "espresso_martini": {
+    "file": "/images/cocktails/espresso_martini.jpg",
+    "bytes": 65320,
+    "sha256": "285a768f5a764b23a75505aaac38e2987746d1449eab16cc1c7aac18602bb93f"
+  },
+  "french_75": {
+    "file": "/images/cocktails/french_75.jpg",
+    "bytes": 55931,
+    "sha256": "00afd7f56903093ae4165d45a4dfb6baf840ed15cb1f9666707339e6484239c6"
+  },
+  "gimlet": {
+    "file": "/images/cocktails/gimlet.jpg",
+    "bytes": 31941,
+    "sha256": "092944a64f3b494700e52a16b9f69b6a9cc980c01bcd18bf4577bcee137b7a59"
+  },
+  "gin_and_tonic": {
+    "file": "/images/cocktails/gin_and_tonic.jpg",
+    "bytes": 105453,
+    "sha256": "0730a59c5ed1e8ae397510a59cacae6e8fd2abe51da9e1a43fa3efac71cea0a4"
+  },
+  "gin_fizz": {
+    "file": "/images/cocktails/gin_fizz.jpg",
+    "bytes": 38116,
+    "sha256": "11eb352d32eb77308afb77d96281c937397fa62d704cf604d679d7a9df7be513"
+  },
+  "last_word": {
+    "file": "/images/cocktails/last_word.jpg",
+    "bytes": 45841,
+    "sha256": "6f2bdaa76a591368f4ce130bd4dd04e73fb04fc5912c4aba559b4df281f58f59"
+  },
+  "mai_tai": {
+    "file": "/images/cocktails/mai_tai.jpg",
+    "bytes": 75717,
+    "sha256": "399cca9237a8398efeb260c82e8c136cc4722f8237ab447684fa9966a23504c3"
+  },
+  "manhattan": {
+    "file": "/images/cocktails/manhattan.jpg",
+    "bytes": 81993,
+    "sha256": "b213c418b6cb85652f1c2e239b4a015d447b17baa1b7691799aa3e30b2bc7968"
+  },
+  "margarita": {
+    "file": "/images/cocktails/margarita.jpg",
+    "bytes": 62510,
+    "sha256": "7302baf9e1172c18a2511ce241a48730093f04d31e410f69c1ffaec3a3b3fe9d"
+  },
+  "mimosa": {
+    "file": "/images/cocktails/mimosa.jpg",
+    "bytes": 58780,
+    "sha256": "3937561c80f2de16c4d6688f4b759eba9a48f8d8e7802686ef8b9617be1e0c00"
+  },
+  "mojito": {
+    "file": "/images/cocktails/mojito.jpg",
+    "bytes": 61540,
+    "sha256": "301175c4959a8c797fd40eef1a6ad78b2c468340d233d4b0164bc913d8572501"
+  },
+  "moscow_mule": {
+    "file": "/images/cocktails/moscow_mule.jpg",
+    "bytes": 81226,
+    "sha256": "9505a790bd0b06611ba7f4071f439aac26e77abd77a6325b6bf5092ce5b3c7ae"
+  },
+  "negroni": {
+    "file": "/images/cocktails/negroni.jpg",
+    "bytes": 77254,
+    "sha256": "c392503b949d649c589b6c7d51c9af895385a1f5729ad8ef9db4b890b5fc1843"
+  },
+  "old_fashioned": {
+    "file": "/images/cocktails/old_fashioned.jpg",
+    "bytes": 108133,
+    "sha256": "109d5554cd2684aa7516d70b61a943263798c9bfc83f166d74838f3cc5072860"
+  },
+  "paloma": {
+    "file": "/images/cocktails/paloma.jpg",
+    "bytes": 35246,
+    "sha256": "083c184fdbb4cba1ec6449b8a1966c019a23ce99899548b0d06aac574ed9aa95"
+  },
+  "pina_colada": {
+    "file": "/images/cocktails/pina_colada.jpg",
+    "bytes": 75337,
+    "sha256": "3b5ac3fd4b45c4df95f463bdc05cc45fa4dc27430016228fcfa2e70bab706d67"
+  },
+  "sazerac": {
+    "file": "/images/cocktails/sazerac.jpg",
+    "bytes": 97792,
+    "sha256": "9c2d3ccbbe4d3ff91b1707b50d44dd70e074ab41ce080329a5a04202d6c6fc93"
+  },
+  "sidecar": {
+    "file": "/images/cocktails/sidecar.jpg",
+    "bytes": 101620,
+    "sha256": "3e30b3b6bac2fd504581846af7fa7653f27be818d1940ee5f5dd6b1026c26fe4"
+  },
+  "southside": {
+    "file": "/images/cocktails/southside.jpg",
+    "bytes": 69345,
+    "sha256": "dc5894b8b2846aa868f9b7b69db4f08f7cd0e9c0b976a9997180e0cad04fc34b"
+  },
+  "tequila_sunrise": {
+    "file": "/images/cocktails/tequila_sunrise.jpg",
+    "bytes": 62550,
+    "sha256": "61dbdebdc8ce32cee4f502748ec5740ecfabdbe3df057c408070e08341957746"
+  },
+  "tom_collins": {
+    "file": "/images/cocktails/tom_collins.jpg",
+    "bytes": 71497,
+    "sha256": "ff4026e58cad400e664ac9a0f09e594d720e61e4a907d1a067fd038644e8d11b"
+  },
+  "tommys_margarita": {
+    "file": "/images/cocktails/tommys_margarita.jpg",
+    "bytes": 122122,
+    "sha256": "f73a6805dd32a4df4a496fb4501067517e344ec4b82641876c79e4cf793e644b"
+  },
+  "vodka_martini": {
+    "file": "/images/cocktails/vodka_martini.jpg",
+    "bytes": 47793,
+    "sha256": "8f9f88348fccb5e40c666a4a7fb7863610f692168cef3c15e97a6aff2c3bc8d8"
+  },
+  "whiskey_sour": {
+    "file": "/images/cocktails/whiskey_sour.jpg",
+    "bytes": 47356,
+    "sha256": "490b871e874c7d3b8f725cfa7bdf92d44864ead9bd9ba1f6edb088c3e9f92267"
+  },
+  "white_russian": {
+    "file": "/images/cocktails/white_russian.jpg",
+    "bytes": 64791,
+    "sha256": "b0600b6b90528f6eadf99eac76ef7b3d2883284bb106a3a77d4b0eb2f627bc32"
+  }
+}

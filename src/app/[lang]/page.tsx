@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { listCocktails } from "@/lib/data";
 import { HomeClient } from "@/components/home-client";
 import { CocktailGrid, type CocktailLink } from "@/components/cocktail-grid";
@@ -19,7 +20,7 @@ export async function generateMetadata({
   return {
     alternates: {
       canonical,
-      languages: { en: abs("/en"), "zh-CN": abs("/zh-CN") },
+      languages: { en: abs("/en"), "zh-CN": abs("/zh-CN"), "x-default": abs("/en") },
     },
     openGraph: {
       type: "website",
@@ -65,6 +66,14 @@ export default async function HomePage({
         title={locale === "zh-CN" ? "热门经典鸡尾酒" : "Popular classic cocktails"}
         items={items}
       />
+      <div className="container -mt-8 pb-16">
+        <Link
+          href={`/${lang}/classics`}
+          className="inline-flex items-center gap-2 rounded-full border border-brand-amber/40 bg-brand-amber/10 px-5 py-2.5 text-sm text-brand-amber transition-colors hover:bg-brand-amber/20"
+        >
+          {locale === "zh-CN" ? "查看全部经典配方 →" : "Browse all classic recipes →"}
+        </Link>
+      </div>
     </>
   );
 }

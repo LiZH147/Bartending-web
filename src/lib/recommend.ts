@@ -12,7 +12,7 @@ import {
   type RecommendResponse,
 } from "./schemas";
 import { suggestSubstitutions } from "./substitutions";
-import { estimateNutrition } from "./nutrition";
+import { estimateServing } from "./nutrition";
 import { pct, slugify } from "./utils";
 import type { HydratedIngredient } from "./data";
 import { prisma } from "./db";
@@ -88,7 +88,7 @@ function toResult(
     score: scored.score,
     // Server-side estimate from the canonical amount column, so the visible
     // page and the Recipe JSON-LD always show identical numbers.
-    nutrition: estimateNutrition(
+    nutrition: estimateServing(
       c.ingredients.map((ci) => ({ id: ci.ingredient.id, amount: ci.amount })),
     ),
     datePublished: c.createdAt,
@@ -156,7 +156,7 @@ export function specsToCreativeResults(
       missing: missingForCreative,
       explanation: isZh ? "由 AI 根据你的酒柜创意生成的配方。" : "An AI-generated recipe inspired by your cabinet.",
       score: 0.5,
-      nutrition: estimateNutrition(
+      nutrition: estimateServing(
         specIngredients.map((si) => ({ id: si.id, amount: si.amount ?? "" })),
       ),
       datePublished: new Date().toISOString(),

@@ -73,6 +73,10 @@ export const NutritionEstimateSchema = z.object({
   calories: z.number().nonnegative(),
   sugarG: z.number().nonnegative(),
   volumeMl: z.number().nonnegative(),
+  /** Estimated ABV (%) before ice dilution; absent for alcohol-free drinks. */
+  abv: z.number().nonnegative().optional(),
+  /** Estimated grams of pure alcohol per serving. */
+  alcoholG: z.number().nonnegative().optional(),
 });
 export type NutritionEstimate = z.infer<typeof NutritionEstimateSchema>;
 

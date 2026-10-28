@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { CocktailDetailClient } from "@/components/cocktail-detail";
+import { buildCocktailFaq, CocktailFaq } from "@/components/cocktail-faq";
 import { CocktailGrid, type CocktailLink } from "@/components/cocktail-grid";
 import { getCocktail, listCocktails } from "@/lib/data";
 import { buildCocktailDetail } from "@/lib/recommend";
-import { abs, breadcrumbJsonLd, jsonLdHtml, recipeJsonLd, SITE_NAME } from "@/lib/seo";
-
-function asArray(v: string | string[] | undefined): string[] {
-  if (!v) return [];
-  return Array.isArray(v) ? v : [v];
-}
+import { abs, breadcrumbJsonLd, faqJsonLd, jsonLdHtml, recipeJsonLd, SITE_NAME } from "@/lib/seo";
 
 // Programmatic SEO: every classic cocktail in every language gets a
 // pre-rendered, indexable page with its own localized title/description,
@@ -41,11 +38,17 @@ export async function generateMetadata({
   return {
     title: `${displayName} ${isZh ? "配方" : "Recipe"}`,
     description,
+    // AI-generated recipes are personalized creative output (and often share a
+    // photo with a classic). They stay reachable and useful, but must not enter
+    // the index: a shelf of thin generated pages is exactly the "crawled, not
+    // indexed" trap.
+    ...(c.source === "ai" ? { robots: { index: false, follow: true } } : {}),
     alternates: {
       canonical,
       languages: {
         en: abs(`/en/cocktail/${decoded}`),
         "zh-CN": abs(`/zh-CN/cocktail/${decoded}`),
+        "x-default": abs(`/en/cocktail/${decoded}`),
       },
     },
     openGraph: {
@@ -68,15 +71,11 @@ export async function generateMetadata({
 
 export default async function CocktailDetailPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ lang: string; id: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { id, lang: rawLang } = await params;
   const lang: "en" | "zh-CN" = rawLang === "zh-CN" ? "zh-CN" : "en";
-  const sp = await searchParams;
-  const ownedIds = asArray(sp.i);
   const decoded = decodeURIComponent(id);
 
   // Seeded server-side so crawlers (and the first paint) get full localized
@@ -101,8 +100,11 @@ export default async function CocktailDetailPage({
       popularity: x.popularity,
     }))
     .sort((a, b) => b.overlap - a.overlap || b.popularity - a.popularity)
-    .slice(0, 4)
+    .slice(0, 6)
     .map(({ overlap: _overlap, popularity: _popularity, ...rest }) => rest);
+
+  const faq = buildCocktailFaq(initial, lang);
+  const isZh = lang === "zh-CN";
 
   return (
     <>
@@ -133,13 +135,30 @@ export default async function CocktailDetailPage({
         dangerouslySetInnerHTML={{
           __html: jsonLdHtml(
             breadcrumbJsonLd([
-              { name: SITE_NAME, url: `/${lang}` },
+              { name: isZh ? "首页" : "Home", url: `/${lang}` },
+              { name: isZh ? "经典配方" : "Classic cocktails", url: `/${lang}/classics` },
               { name: initial.name, url: `/${lang}/cocktail/${decoded}` },
             ]),
           ),
         }}
       />
-      <CocktailDetailClient id={decoded} ownedIds={ownedIds} initial={initial} />
+      {faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml(faqJsonLd(faq)) }}
+        />
+      )}
+      <div className="container pt-6">
+        <Breadcrumbs
+          items={[
+            { label: isZh ? "首页" : "Home", href: `/${lang}` },
+            { label: isZh ? "经典配方" : "Classic cocktails", href: `/${lang}/classics` },
+            { label: initial.name },
+          ]}
+        />
+      </div>
+      <CocktailDetailClient id={decoded} initial={initial} />
+      <CocktailFaq items={faq} heading={isZh ? "关于这杯酒" : "About this drink"} />
       <CocktailGrid
         lang={lang}
         title={lang === "zh-CN" ? "相关推荐" : "You might also like"}

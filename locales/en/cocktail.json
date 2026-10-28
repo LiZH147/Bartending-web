@@ -27,5 +27,9 @@
   "cocktail.nutrition.sugar": "Sugar",
   "cocktail.nutrition.kcal": "kcal",
   "cocktail.nutrition.grams": "g",
-  "cocktail.nutrition.note": "Estimated per serving from standard ingredient values — actual figures vary with brands and pour size."
+  "cocktail.nutrition.abv": "ABV",
+  "cocktail.nutrition.abvValue": "{abv}% ABV",
+  "cocktail.nutrition.alcoholLabel": "Alcohol",
+  "cocktail.nutrition.alcohol": "{g} g",
+  "cocktail.nutrition.note": "Estimated per serving from standard ingredient values — actual figures vary with brands and pour size. Alcohol is calculated from the recipe ratios before ice dilution."
 }

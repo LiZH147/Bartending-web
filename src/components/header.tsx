@@ -14,6 +14,7 @@ export function Header() {
 
   const links = [
     { href: `/${locale}`, label: t("nav.home") },
+    { href: `/${locale}/classics`, label: t("nav.classics") },
     { href: `/${locale}/cabinet`, label: t("nav.cabinet") },
     { href: `/${locale}/favorites`, label: t("nav.favorites") },
     { href: `/${locale}/guide`, label: t("nav.guide") },

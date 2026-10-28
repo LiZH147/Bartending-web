@@ -27,11 +27,14 @@ export function CocktailImage({ src, alt, seed, emoji = "🍸", className, prior
   const hueA = (h % 360 + 360) % 360;
   const hueB = (hueA + 45) % 360;
 
-  const showImage = src && !failed && /^https?:\/\//.test(src);
+  // Accept both remote URLs and self-hosted paths (/images/cocktails/<id>.jpg):
+  // the photos live in public/ now, so restricting this to http(s) would hide
+  // every cocktail photo from the server-rendered HTML (and from image search).
+  const showImage = Boolean(src && !failed);
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
-      {showImage ? (
+      {showImage && src ? (
         <Image
           src={src}
           alt={alt}

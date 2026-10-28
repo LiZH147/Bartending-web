@@ -39,14 +39,24 @@ export function CocktailDetailClient({
   const [notFound, setNotFound] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  // `?i=` carries the ingredient ids that produced the surrounding
+  // recommendation. Reading it on the client keeps the recipe route static
+  // (no `searchParams`), so every cocktail page is pre-rendered HTML at the
+  // edge instead of a per-request SSR round trip. Search engines never see
+  // `?i=` links, so this has no SEO effect on the canonical recipe page.
+  const [urlOwnedIds] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    return new URLSearchParams(window.location.search).getAll("i");
+  });
+
   const cabinetKey = cabinet.items.join(",");
-  const ownedIdsKey = ownedIds.join(",");
+  const ownedIdsKey = [...ownedIds, ...urlOwnedIds].join(",");
 
   // The "you own it" context is the union of the persistent cabinet and the
   // ingredient selection that produced the surrounding recommendation, so the
   // detail view stays consistent with the results page's match/owned badges.
   const owned = useMemo(
-    () => Array.from(new Set([...cabinet.items, ...ownedIds])),
+    () => Array.from(new Set([...cabinet.items, ...ownedIds, ...urlOwnedIds])),
     [cabinetKey, ownedIdsKey],
   );
 
@@ -187,7 +197,7 @@ export function CocktailDetailClient({
           <div className="overflow-hidden rounded-2xl border border-border">
             <CocktailImage
               src={c.imageUrl}
-              alt={c.name}
+              alt={zh ? `${c.name} 鸡尾酒（${c.glass}）` : `${c.name} cocktail served in a ${c.glass.toLowerCase()}`}
               seed={c.nameEn}
               emoji={c.ingredients[0]?.emoji ?? "🍸"}
               className="aspect-[4/5] w-full"
@@ -260,6 +270,18 @@ export function CocktailDetailClient({
                   label={t("cocktail.nutrition.sugar")}
                   value={`${c.nutrition.sugarG} ${t("cocktail.nutrition.grams")}`}
                 />
+                {c.nutrition.abv != null && (
+                  <MetaItem
+                    label={t("cocktail.nutrition.abv")}
+                    value={t("cocktail.nutrition.abvValue", { abv: String(c.nutrition.abv) })}
+                  />
+                )}
+                {c.nutrition.alcoholG != null && (
+                  <MetaItem
+                    label={t("cocktail.nutrition.alcoholLabel")}
+                    value={t("cocktail.nutrition.alcohol", { g: String(c.nutrition.alcoholG) })}
+                  />
+                )}
               </div>
               <p className="mt-2 text-xs text-muted-foreground">{t("cocktail.nutrition.note")}</p>
             </section>

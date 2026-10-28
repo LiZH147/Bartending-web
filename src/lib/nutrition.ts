@@ -261,3 +261,89 @@ export function servingSizeText(volumeMl: number, lang: "en" | "zh-CN"): string 
   }
   return volume > 0 ? `1 cocktail (about ${volume} ml)` : "1 cocktail";
 }
+/* ------------------------------------------------------------------ *
+ * Estimated strength (alcohol) — the second piece of "information
+ * gain" on a recipe page: "how strong is this cocktail?" is a real
+ * search question that competitors rarely answer with the site's own
+ * numbers. We derive it from the same canonical amounts used for the
+ * nutrition estimate, so page and data can never disagree.
+ *
+ * It is a *pre-dilution* estimate: ice melt adds roughly 20-25 % water
+ * to a shaken or stirred drink, which the UI states explicitly.
+ * ------------------------------------------------------------------ */
+
+/** Typical ABV (%) for the alcohol-bearing ingredients in the database. */
+const ABV_PCT: Record<string, number> = {
+  gin: 40, vodka: 40, white_rum: 40, dark_rum: 40, tequila: 40, mezcal: 45,
+  bourbon: 45, rye_whiskey: 45, scotch: 43, cognac: 40, brandy: 40, cachaca: 40,
+  pisco: 40, absinthe: 60, aquavit: 40,
+  triple_sec: 30, cointreau: 40, curacao: 30, grand_marnier: 40, campari: 25,
+  aperol: 11, sweet_vermouth: 16, dry_vermouth: 15, lillet_blanc: 17,
+  maraschino: 32, amaretto: 28, coffee_liqueur: 20, irish_cream: 17,
+  creme_de_cacao: 24, creme_de_violette: 20, benedictine: 40, chartreuse_green: 55,
+  cherry_liqueur: 24, creme_de_menthe: 24, pimm_no1: 25, dubonnet: 15,
+  port: 20, sherry: 15, prosecco: 11, champagne: 12,
+  angostura_bitters: 44.7, orange_bitters: 45, peychauds_bitters: 35,
+};
+
+const ETHANOL_G_PER_ML = 0.789;
+/** US standard drink: 14 g of pure alcohol. */
+const STANDARD_DRINK_G = 14;
+
+export interface StrengthEstimate {
+  /** Estimated alcohol by volume of the poured ingredients, in percent. */
+  abv: number;
+  /** Grams of pure alcohol per serving. */
+  alcoholG: number;
+  /** alcoholG expressed in US standard drinks (one = 14 g). */
+  standardDrinks: number;
+}
+
+/**
+ * Estimate strength from the canonical ingredient amounts.
+ * Returns null when the recipe contains no alcohol-bearing ingredient.
+ */
+export function estimateStrength(ingredients: NutritionIngredient[]): StrengthEstimate | null {
+  if (!ingredients || ingredients.length === 0) return null;
+
+  let alcoholMl = 0;
+  let volumeMl = 0;
+
+  for (const item of ingredients) {
+    const nutrition = PER_100_ML[item.id];
+    const parsed = parseAmount(item.amount, nutrition ?? { kcalPer100Ml: 0, sugarPer100Ml: 0 });
+    const abv = ABV_PCT[item.id] ?? 0;
+
+    volumeMl += parsed.ml;
+    alcoholMl += (parsed.ml * abv) / 100;
+  }
+
+  if (alcoholMl <= 0 || volumeMl <= 0) return null;
+
+  const alcoholG = alcoholMl * ETHANOL_G_PER_ML;
+  return {
+    abv: Math.round((alcoholMl / volumeMl) * 100 * 10) / 10,
+    alcoholG: Math.round(alcoholG),
+    standardDrinks: Math.round((alcoholG / STANDARD_DRINK_G) * 10) / 10,
+  };
+}
+
+/** Human-readable strength line for the visible page. */
+export function strengthText(strength: StrengthEstimate, lang: "en" | "zh-CN"): string {
+  if (lang === "zh-CN") {
+    return `约 ${strength.abv}% ABV（约 ${strength.alcoholG} 克酒精，未计入冰块稀释）`;
+  }
+  return `About ${strength.abv}% ABV (about ${strength.alcoholG} g of alcohol, before ice dilution)`;
+}
+/**
+ * Nutrition + strength in one object, so callers (and the UI) never have to
+ * compute the two independently and risk showing mismatched numbers.
+ */
+export function estimateServing(
+  ingredients: NutritionIngredient[],
+): (NutritionEstimate & { abv?: number; alcoholG?: number }) | null {
+  const nutrition = estimateNutrition(ingredients);
+  if (!nutrition) return null;
+  const strength = estimateStrength(ingredients);
+  return strength ? { ...nutrition, abv: strength.abv, alcoholG: strength.alcoholG } : nutrition;
+}

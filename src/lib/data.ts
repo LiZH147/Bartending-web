@@ -1,5 +1,6 @@
 import { type Prisma } from "@prisma/client";
 import { prisma } from "./db";
+import { cocktailHeroImage } from "./images";
 import { jsonArray } from "./utils";
 import type { Category, Difficulty, Flavor, Method, Source, Strength } from "./constants";
 import type { Language } from "./schemas";
@@ -115,7 +116,9 @@ function hydrateCocktailRow(row: CocktailRow): HydratedCocktail {
     popularity: row.popularity,
     novelty: row.novelty,
     source: row.source as Source,
-    imageUrl: row.imageUrl,
+    // Self-hosted copy when available (image SEO + no third-party CDN), else
+    // whatever URL the row stores.
+    imageUrl: cocktailHeroImage(row.id, row.imageUrl),
     prepTime: row.prepTime,
     createdAt: row.createdAt.toISOString(),
     ingredients: (row.ingredients ?? []).map((ci) => ({

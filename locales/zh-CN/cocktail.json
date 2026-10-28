@@ -27,5 +27,9 @@
   "cocktail.nutrition.sugar": "糖",
   "cocktail.nutrition.kcal": "千卡",
   "cocktail.nutrition.grams": "克",
-  "cocktail.nutrition.note": "按标准食材营养值估算每杯含量，实际数值随品牌与倒酒量有所不同。"
+  "cocktail.nutrition.abv": "酒精度",
+  "cocktail.nutrition.abvValue": "约 {abv}% ABV",
+  "cocktail.nutrition.alcoholLabel": "纯酒精",
+  "cocktail.nutrition.alcohol": "约 {g} 克",
+  "cocktail.nutrition.note": "按标准食材营养值估算每杯含量，实际数值随品牌与倒酒量有所不同；酒精度按配方比例计算，未计入冰块稀释。"
 }

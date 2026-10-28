@@ -284,14 +284,10 @@ export function websiteJsonLd(): Record<string, unknown> {
     name: SITE_NAME,
     url: SITE_URL,
     description: DEFAULT_DESCRIPTION,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
+    // No potentialAction/SearchAction: the site has no site-search endpoint, and
+    // declaring one that 404s is a false capability claim (structured data must
+    // only describe features that actually exist). Add it back together with a
+    // real /search page if site search ever ships.
   };
 }
 
@@ -323,6 +319,53 @@ export function breadcrumbJsonLd(
       position: i + 1,
       name: item.name,
       item: abs(item.url),
+    })),
+  };
+}
+/**
+ * Schema.org Article for editorial pages such as the beginner's guide.
+ * Deliberately omits datePublished/dateModified: the guide is evergreen, and
+ * stamping it with the build date would be the same "always now" lie that
+ * Google flags in sitemaps. Add real dates when the content is dated.
+ */
+export function articleJsonLd(input: {
+  headline: string;
+  description: string;
+  url: string;
+  lang?: RecipeLocale;
+  image?: string | null;
+  datePublished?: string;
+  dateModified?: string;
+}): Record<string, unknown> {
+  const lang: RecipeLocale = input.lang ?? "en";
+  const url = abs(input.url);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: input.headline,
+    description: input.description,
+    inLanguage: lang,
+    url,
+    mainEntityOfPage: url,
+    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: SITE_URL },
+    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    ...(input.image ? { image: [abs(input.image)] } : {}),
+    ...(input.datePublished ? { datePublished: input.datePublished } : {}),
+    ...(input.dateModified ? { dateModified: input.dateModified } : {}),
+  };
+}
+/** FAQPage JSON-LD. Answers must match the visible FAQ text on the page. */
+export function faqJsonLd(
+  items: { question: string; answer: string }[],
+): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
     })),
   };
 }
